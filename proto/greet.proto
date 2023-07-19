@@ -1,0 +1,29 @@
+//定義將在客戶端和服務端之間發生的遠程過程調用，網格配置文件
+syntax="proto3";
+//定義生成文件地址
+option go_package = "./proto";
+
+package greet_service;
+
+//定義API interface
+service GreetService{
+  rpc SayHello(NoParam) returns (HelloResponse);
+  rpc SayHelloServerStream(NameList) returns (stream HelloResponse);
+  rpc SayHelloClientStream(stream HelloRequest) returns (MessageList);
+  rpc SayHelloBidirectionalStream(stream HelloRequest) returns (stream HelloResponse);
+}
+
+//message對應go中的struct，repeated則是append，每個數字為識別馬，需要不一樣
+message NoParam {};
+message HelloRequest {
+  string name = 1;
+};
+message HelloResponse{
+  string message = 1;
+}
+message NameList{
+  repeated string names = 1;
+}
+message MessageList {
+  repeated string messages = 1;
+}
